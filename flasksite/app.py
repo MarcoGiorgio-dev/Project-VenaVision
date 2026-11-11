@@ -53,6 +53,11 @@ def logout():
 def patienter():
     return render_template("patienter.html")
 
+@app.route("/Malte_session")
+@login_required 
+def Malte_session(): 
+    return render_template ("Malte_session.html")
+
 
 
 @app.route("/index")
@@ -66,3 +71,4 @@ def Patienter():
       
 
 app.run(debug=True)
+
