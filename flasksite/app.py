@@ -50,7 +50,7 @@ def logout():
 
 @app.route("/Patienter")
 @login_required          # only logged-in users can open this page
-def patienter():
+def Patienter():
     return render_template("Patienter.html")
 
 @app.route("/Malte_session")
