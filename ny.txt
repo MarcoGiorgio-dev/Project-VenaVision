@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn for flasksite
+After=network.target
+[Service]
+User=gruppe4
+Group=www-data
+WorkingDirectory=/project_venavision/Project-VenaVision/flasksite
+RuntimeDirectory=flasksite
+ExecStart=/project_venavision/Project-VenaVision/flasksite/venv/bin/gunicorn --workers 3 --umask 007 --bind unix:/run/flasksite/flasksite.sock app:app
+EnvironmentFile=/project_venavision/Project-VenaVision/flasksite/.env
+Restart=on-failure
+Environtment=MPLCONFIGDIR=/tmp/matplotlib
+[Install]
+WantedBy=multi-user.target

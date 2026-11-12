@@ -51,7 +51,7 @@ def logout():
 @app.route("/Patienter")
 @login_required          # only logged-in users can open this page
 def patienter():
-    return render_template("patienter.html")
+    return render_template("Patienter.html")
 
 @app.route("/Malte_session")
 @login_required 
@@ -69,6 +69,7 @@ def Patienter():
     return render_template ("Patienter.html")
    
       
+if __name__ == "__main__":
+	app.run(host="0.0.0.0", port=5000, debug=True)
 
-app.run(debug=True)
 
