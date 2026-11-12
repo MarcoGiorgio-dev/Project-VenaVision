@@ -39,7 +39,7 @@ def login():
         password = request.form["password"]
         if username in USERS and check_password_hash(USERS[username], password):
             login_user(User(username))
-            return redirect(url_for("Patienter"))
+            return redirect(url_for("patienter"))
         flash("Wrong username or password")
     return render_template("login.html")
 
@@ -51,12 +51,28 @@ def logout():
 @app.route("/Patienter")
 @login_required          # only logged-in users can open this page
 def patienter():
-    return render_template("Patienter.html")
+    return render_template("patienter.html")
 
 @app.route("/Malte_session")
 @login_required 
 def Malte_session(): 
     return render_template ("Malte_session.html")
+
+
+@app.route("/Celine_session")
+@login_required 
+def Celine_session(): 
+    return render_template ("Celine_session.html")
+
+@app.route("/Jakob_session")
+@login_required 
+def Jakob_session(): 
+    return render_template ("Jakob_session.html")
+
+@app.route("/Marco_session")
+@login_required 
+def Marco_session(): 
+    return render_template ("Marco_session.html")
 
 
 
@@ -69,7 +85,6 @@ def Patienter():
     return render_template ("Patienter.html")
    
       
-if __name__ == "__main__":
-	app.run(host="0.0.0.0", port=5000, debug=True)
 
+app.run(debug=True)
 
