@@ -39,7 +39,7 @@ def login():
         password = request.form["password"]
         if username in USERS and check_password_hash(USERS[username], password):
             login_user(User(username))
-            return redirect(url_for("patienter"))
+            return redirect(url_for("Patienter"))
         flash("Wrong username or password")
     return render_template("login.html")
 
@@ -51,7 +51,7 @@ def logout():
 @app.route("/Patienter")
 @login_required          # only logged-in users can open this page
 def patienter():
-    return render_template("patienter.html")
+    return render_template("Patienter.html")
 
 @app.route("/Malte_session")
 @login_required 
