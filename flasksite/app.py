@@ -39,7 +39,7 @@ def login():
         password = request.form["password"]
         if username in USERS and check_password_hash(USERS[username], password):
             login_user(User(username))
-            return redirect(url_for("patienter"))
+            return redirect(url_for("Patienter"))
         flash("Wrong username or password")
     return render_template("login.html")
 
