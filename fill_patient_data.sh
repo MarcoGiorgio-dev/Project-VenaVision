@@ -75,4 +75,4 @@ random_date() {
 	printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
 }
 
-random_date 1930 2026
+random_date 1930 2024
