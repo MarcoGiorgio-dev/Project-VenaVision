@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # COMMAND FOR CHAINING COMMANDS IN PIPELINE - 1 PART FAILS = ENTIRE PIPELINE FAILS
+# "-e" STOPS ON ERRORS, "-u" STOPS ON UNSET VARIABLES & "-o pipefail" FAILS IF ANY COMMAND IN THE PIPELINE FAILS
 set -euo pipefail
 
 # ---------------- CONFIG SECTION ------------------
@@ -9,6 +10,9 @@ DB_NAME="venavision"
 DB_USER="postgres"
 TABLE_NAME="patients"
 COUNT=100
+
+# For security reasons, the password will not be hardcoded. Before running, use the command:
+#   export PGPASSWORD='insert_own_password_here'
 
 # --------- LISTS OF POSSIBLE DATAINSERTS ----------
 DIAGNOSES=(
@@ -84,7 +88,7 @@ random_last_prick() {
 	date -d "$n days ago" +%F
 }
 
-# FUNCTIONS FOR GENERATING LAST PRICK DATES
+# FUNCTION USED FOR FINDING FOLLOW-UP DATE
 add_days() {
 	local base=$1
 	local n=$2
@@ -102,26 +106,38 @@ make_cpr() {
 	if [[ "$sex" == "Male" ]]; then
 		last=$(( 1 + 2 * (RANDOM % 5) ))
 	else
-		last=$(( 2 * (random % 5) ))
+		last=$(( 2 * (RANDOM % 5) ))
 	fi
 	printf "%s-%03d%d\n" "$ddmmyy" "$mid" "$last"
 }
 
-# ---- DATA ENTRY LOOP USING PREVIOUS FUNCTIONS ----
-for i in $(seq 1 "$COUNT"); do
-	sex=$(random_from SEX)
-	birthdate=$(random_birthdate 1930 2025)
-	diagnose=$(random_from DIAGNOSES)
-	bloodtype=$(random_from BLOODTYPES)
-	last_prick=$(random_last_prick 365)
-	follow_up=$(add_days "$last_prick" $(( 14 + RANDOM % 167 )))
-	cpr=$(make_cpr "$birthdate" "$sex")
-	comment=$(random_from COMMENT)
-        sql+=$(printf "INSERT INTO %s (birthdate, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
-                "$TABLE_NAME" "$birthdate" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
-        sql+=$'\n'
-done
+# FUNCTION FOR AUTOMATING CONNECTION TO THE POSTGRESQL SERVER
+run_query() {
+	psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1 "$@"
+}
 
-printf '%s\n' "BEGIN;" "$sql" "COMMIT;" | psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1
+# FINAL FUNCTION FOR GENERATING PATIENTS - ALL FUNCTIONS COMBINED AND RUN AS ONE
+patient_generator() {
+	local sql=""
+	for i in $(seq 1 "$COUNT"); do
+		sex=$(random_from SEX)
+		birthdate=$(random_birthdate 1930 2008)
+		diagnose=$(random_from DIAGNOSES)
+		bloodtype=$(random_from BLOODTYPES)
+		last_prick=$(random_last_prick 365)
+		follow_up=$(add_days "$last_prick" $(( 14 + RANDOM % 167 )))
+		cpr=$(make_cpr "$birthdate" "$sex")
+		comment=$(random_from COMMENT)
+		
+	    sql+=$(printf "INSERT INTO %s (birthdate, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
+	            "$TABLE_NAME" "$birthdate" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
+	    sql+=$'\n'
+	done
+	
+	printf '%s\n' "BEGIN;" "$sql" "COMMIT;" | run_query
+	
+	echo "Inserted $COUNT patients"
+}
 
-echo "Inserted $COUNT patients"
+# --------------------- MAIN -----------------------
+patient_generator
