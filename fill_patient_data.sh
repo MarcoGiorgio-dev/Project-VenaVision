@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+# COMMAND FOR CHAINING COMMANDS IN PIPELINE - 1 PART FAILS = ENTIRE PIPELINE FAILS
 set -euo pipefail
 
-# -------- CONFIG SECTION ---------
+# ---------------- CONFIG SECTION ------------------
 DB_HOST="localhost"
 DB_PORT="5432"
 DB_NAME="venavision"
@@ -9,7 +10,7 @@ DB_USER="postgres"
 TABLE_NAME="patients"
 COUNT=100
 
-# ------------- LIST --------------
+# --------- LISTS OF POSSIBLE DATAINSERTS ----------
 DIAGNOSES=(
 	"Type 1 diabetes"
 	"Type 2 diabetes"
@@ -59,13 +60,15 @@ COMMENT=(
 	"Has deep laying veins"
 )
 
-# ----------- FUNCTIONS -----------
+# ----------- FUNCTIONS FOR INSERTIONS -------------
+# FUNCTION FOR CHOOSING RANDOM ARGUMENT WITHIN LISTS
 random_from() {
 	local -n list=$1
 	local index=$(( RANDOM % ${#list[@]} ))
 	echo "${list[$index]}"
 }
 
+# FUNCTIONS FOR GENERATING DATES
 random_birthdate() {
 	local start=$1
 	local end=$2
@@ -81,12 +84,14 @@ random_last_prick() {
 	date -d "$n days ago" +%F
 }
 
+# FUNCTIONS FOR GENERATING LAST PRICK DATES
 add_days() {
 	local base=$1
 	local n=$2
 	date -d "$base + $n days" +%F
 }
 
+# FUNCTION FOR RANDOMLY GENERATING CPR NUMBERS
 make_cpr() {
 	local birthdate=$1
 	local sex=$2
@@ -102,8 +107,7 @@ make_cpr() {
 	printf "%s-%03d%d\n" "$ddmmyy" "$mid" "$last"
 }
 
-# ----------- MAIN LOOP -----------
-
+# ---- DATA ENTRY LOOP USING PREVIOUS FUNCTIONS ----
 for i in $(seq 1 "$COUNT"); do
 	sex=$(random_from SEX)
 	birthdate=$(random_birthdate 1930 2025)
