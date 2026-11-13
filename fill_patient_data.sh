@@ -62,7 +62,7 @@ COMMENT=(
 # ------------ HELPERS ------------
 random_from() {
 	local -n list=$1
-	local index$(( RANDOM % ${#list[@]} ))
+	local index=$(( RANDOM % ${#list[@]} ))
 	echo "${list[$index]}"
 }
 
