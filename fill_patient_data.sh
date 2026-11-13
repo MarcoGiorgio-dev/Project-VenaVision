@@ -59,11 +59,20 @@ COMMENT=(
 	"Has deep laying veins"
 )
 
-# ------------ HELPERS ------------
+# ----------- FUNCTIONS -----------
 random_from() {
 	local -n list=$1
 	local index=$(( RANDOM % ${#list[@]} ))
 	echo "${list[$index]}"
 }
 
-random_from DIAGNOSES
+random_date() {
+	local start=$1
+	local end=$2
+	local year=$(( start + RANDOM % (end - start + 1) ))
+	local month=$(( 1 + RANDOM % 12))
+	local day=$(( 1 + RANDOM % 28 ))
+	printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
+}
+
+random_date 1930 2026
