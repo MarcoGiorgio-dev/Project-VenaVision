@@ -66,7 +66,7 @@ random_from() {
 	echo "${list[$index]}"
 }
 
-random_date() {
+random_birthdate() {
 	local start=$1
 	local end=$2
 	local year=$(( start + RANDOM % (end - start + 1) ))
@@ -75,4 +75,49 @@ random_date() {
 	printf "%04d-%02d-%02d\n" "$year" "$month" "$day"
 }
 
-random_date 1930 2024
+random_last_prick() {
+	local days_back=$1
+	local n=$(( RANDOM % (days_back + 1) ))
+	date -d "$n days ago" +%F
+}
+
+add_days() {
+	local base=$1
+	local n=$2
+	date -d "$base + $n days" +%F
+}
+
+make_cpr() {
+	local birthdate=$1
+	local sex=$2
+	local ddmmyy
+	ddmmyy=$(date -d "$birthdate" +%d%m%y)
+	local mid=$(( RANDOM % 1000 ))
+	local last
+	if [[ "$sex" == "Male" ]]; then
+		last=$(( 1 + 2 * (RANDOM % 5) ))
+	else
+		last=$(( 2 * (random % 5) ))
+	fi
+	printf "%s-%03d%d\n" "$ddmmyy" "$mid" "$last"
+}
+
+# ----------- MAIN LOOP -----------
+
+for i in $(seq 1 "$COUNT"); do
+	sex=$(random_from SEX)
+	birthdate=$(random_birthdate 1930 2025)
+	diagnose=$(random_from DIAGNOSES)
+	bloodtype=$(random_from BLOODTYPES)
+	last_prick=$(random_last_prick 365)
+	follow_up=$(add_days "$last_prick" $(( 14 + RANDOM % 167 )))
+	cpr=$(make_cpr "$birthdate" "$sex")
+	comment=$(random_from COMMENT)
+        sql+=$(printf "INSERT INTO %s (birthdate, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
+                "$TABLE_NAME" "$birthdate" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
+        sql+=$'\n'
+done
+
+printf '%s\n' "BEGIN;" "$sql" "COMMIT;" | psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1
+
+echo "Inserted $COUNT patients"
