@@ -18,22 +18,22 @@ fi
 column="$1"
 value="$2"
 
-#--------------- HOW TO SEARCH ----------------
+# --------------- HOW TO SEARCH ----------------
 # The case has 2 functionalities - only accept known columns, 
 # and decide whether to match the entire input value or just a part of it.
 case "$column" in
     sex|bloodtype)
         pattern="$value" ;; 
-    name|birth_date|diagnose|last_needle_prick|follow_up|cpr_number|comment)
+    first_name|last_name|birth_date|diagnose|last_needle_prick|follow_up|cpr_number|comment)
         pattern="%$value%" ;;
     *)
         echo "Unknown column: $column"
         exit 1 ;;
 esac
 
-# ---------- RUN THE SEARCH ----------
-# -v v="$pattern" hands the value to psql as a variable called v.
-# :'v' puts it into the query, safely quoted.
+# ---------- THE SEARCH ITSELF ----------
+# Explanation: -v v="$pattern" in line 38 hands the value to the psql command as a variable named v.
+# :'v' in line 39 puts it into the query, safely quoted.
 # ILIKE ignores upper/lower case, and ::text lets it work on date columns too.
 psql -h "$DB_host" -p "$DB_PORT" -u "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1 -v v="$pattern" \
     <<< "SELECT * FROM $TABLE_NAME WHERE $column::text ILIKE :'v' ORDER BY $column ASC;"
