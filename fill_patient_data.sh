@@ -15,6 +15,35 @@ COUNT=100
 #   export PGPASSWORD='insert_own_password_here'
 
 # --------- LISTS OF POSSIBLE DATAINSERTS ----------
+MALE_NAMES=(
+	"Peter" "Lars" "Jens" "Michael" "Henrik" "Thomas" "Morten" "Anders" "Jesper" "Mikkel"
+	"Rasmus" "Kasper" "Niels" "Christian" "Martin" "Mads" "Jonas" "Emil" "Oliver" "William"
+	"Noah" "Oscar" "Lucas" "Viktor" "Frederik" "Magnus" "Simon" "Nikolaj" "Mathias" "Tobias"
+	"Daniel" "Jacob" "Kim" "Allan" "Bent" "Ole" "Poul" "Erik" "Carsten" "Flemming"
+	"Claus" "Brian" "Dennis" "Jonathan" "Alexander" "Benjamin" "Casper" "Theis" "Hans" "Karl"
+)
+
+FEMALE_NAMES=(
+	"Anne" "Mette" "Susanne" "Lone" "Kirsten" "Hanne" "Camilla" "Louise" "Maria" "Sofie"
+	"Emma" "Ida" "Freja" "Clara" "Laura" "Julie" "Sara" "Anna" "Mia" "Nanna"
+	"Caroline" "Cecilie" "Josefine" "Amalie" "Emilie" "Frederikke" "Marie" "Katrine" "Pernille" "Charlotte"
+	"Helle" "Karen" "Birgit" "Inge" "Lise" "Ingrid" "Tina" "Dorte" "Lotte" "Malene"
+	"Trine" "Signe" "Line" "Rikke" "Stine" "Maja" "Alberte" "Agnes" "Astrid" "Liv"
+)
+
+SURNAMES=(
+	"Jensen" "Nielsen" "Hansen" "Pedersen" "Andersen" "Christensen" "Larsen" "Sorensen" "Rasmussen" "Jorgensen"
+	"Petersen" "Madsen" "Kristensen" "Olsen" "Thomsen" "Christiansen" "Poulsen" "Johansen" "Moller" "Mortensen"
+	"Knudsen" "Jakobsen" "Mikkelsen" "Olesen" "Frederiksen" "Laursen" "Henriksen" "Lund" "Holm" "Schmidt"
+	"Eriksen" "Kristiansen" "Simonsen" "Clausen" "Svendsen" "Andreasen" "Iversen" "Ostergaard" "Jeppesen" "Vestergaard"
+	"Nissen" "Lauridsen" "Kjaer" "Jespersen" "Mogensen" "Norgaard" "Jessen" "Dalgaard" "Bertelsen" "Bach"
+	"Hermansen" "Lindberg" "Bruun" "Krogh" "Friis" "Berg" "Skov" "Bang" "Winther" "Brandt"
+	"Kjeldsen" "Lassen" "Hougaard" "Toft" "Mathiesen" "Dam" "Nygaard" "Bundgaard" "Lykke" "Overgaard"
+	"Munk" "Rosenberg" "Bech" "Villadsen" "Abrahamsen" "Ravn" "Foged" "Damgaard" "Carlsen" "Hviid"
+	"Kragh" "Beck" "Ebbesen" "Hjort" "Juhl" "Gregersen" "Thorsen" "Strand" "Buch" "Lorentzen"
+	"Rye" "Steffensen" "Bjerregaard" "Bonde" "Sand" "Holst" "Thygesen" "Brix" "Hald" "Vinther"
+)
+
 DIAGNOSES=(
 	"Type 1 diabetes"
 	"Type 2 diabetes"
@@ -73,7 +102,7 @@ random_from() {
 }
 
 # FUNCTIONS FOR GENERATING DATES
-random_birthdate() {
+random_birth_date() {
 	local start=$1
 	local end=$2
 	local year=$(( start + RANDOM % (end - start + 1) ))
@@ -97,10 +126,10 @@ add_days() {
 
 # FUNCTION FOR RANDOMLY GENERATING CPR NUMBERS
 make_cpr() {
-	local birthdate=$1
+	local birth_date=$1
 	local sex=$2
 	local ddmmyy
-	ddmmyy=$(date -d "$birthdate" +%d%m%y)
+	ddmmyy=$(date -d "$birth_date" +%d%m%y)
 	local mid=$(( RANDOM % 1000 ))
 	local last
 	if [[ "$sex" == "Male" ]]; then
@@ -121,16 +150,22 @@ patient_generator() {
 	local sql=""
 	for i in $(seq 1 "$COUNT"); do
 		sex=$(random_from SEX)
-		birthdate=$(random_birthdate 1930 2008)
+		if [[ "$sex" == "Male" ]]; then
+			first_name=$(random_from MALE_NAMES)
+		else
+			first_name=$(random_from FEMALE_NAMES)
+		fi
+		last_name=$(random_from SURNAMES)
+		birth_date=$(random_birth_date 1930 2008)
 		diagnose=$(random_from DIAGNOSES)
 		bloodtype=$(random_from BLOODTYPES)
 		last_prick=$(random_last_prick 365)
 		follow_up=$(add_days "$last_prick" $(( 14 + RANDOM % 167 )))
-		cpr=$(make_cpr "$birthdate" "$sex")
+		cpr=$(make_cpr "$birth_date" "$sex")
 		comment=$(random_from COMMENT)
 		
-	    sql+=$(printf "INSERT INTO %s (birthdate, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
-	            "$TABLE_NAME" "$birthdate" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
+	    sql+=$(printf "INSERT INTO %s (birth_date, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
+	            "$TABLE_NAME" "$name" "$birth_date" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
 	    sql+=$'\n'
 	done
 	
