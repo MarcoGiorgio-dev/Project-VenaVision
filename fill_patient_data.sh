@@ -164,8 +164,8 @@ patient_generator() {
 		cpr=$(make_cpr "$birth_date" "$sex")
 		comment=$(random_from COMMENT)
 		
-	    sql+=$(printf "INSERT INTO %s (birth_date, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
-	            "$TABLE_NAME" "$name" "$birth_date" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
+	    sql+=$(printf "INSERT INTO %s (first_name last_name birth_date, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s);" \
+	            "$TABLE_NAME" "$first_name" "$last_name" "$birth_date" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
 	    sql+=$'\n'
 	done
 	
