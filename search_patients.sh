@@ -9,7 +9,7 @@ TABLE_NAME="patients"
 
 ALLOWED_COLUMNS=(first_name last_name birth_date diagnose last_needle_prick bloodtype sex follow_up cpr_number comment)
 
-# ------------------------------
+# ---------- OPENING CHECK OF INPUT ------------
 if [[ $# -ne 2 ]]; then
     echo "How to use: ./search_patients.sh <name of column> <value to search for>" >&2
     echo "Columns: first_name last_name diagnose last_needle_prick bloodtype sex follow_up cpr_number comment"
