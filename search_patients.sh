@@ -4,7 +4,7 @@ set -euo pipefail
 DB_HOST="localhost"
 DB_PORT="5432"
 DB_NAME="venavision"
-DB_USER="postgres"
+DB_USER="venavision_user"
 TABLE_NAME="patients"
 
 ALLOWED_COLUMNS=(first_name last_name birth_date diagnose last_needle_prick bloodtype sex follow_up cpr_number comment)

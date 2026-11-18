@@ -7,7 +7,7 @@ set -euo pipefail
 DB_HOST="localhost"
 DB_PORT="5432"
 DB_NAME="venavision"
-DB_USER="postgres"
+DB_USER="venavision_user"
 TABLE_NAME="patients"
 COUNT=100
 
