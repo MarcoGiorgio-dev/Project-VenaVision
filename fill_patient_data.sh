@@ -162,10 +162,11 @@ patient_generator() {
 		last_prick=$(random_last_prick 365)
 		follow_up=$(add_days "$last_prick" $(( 14 + RANDOM % 167 )))
 		cpr=$(make_cpr "$birth_date" "$sex")
-		comment=$(random_from COMMENT)
+		notes=$(random_from COMMENT)
+		source="Script"
 		
-	    sql+=$(printf "INSERT INTO %s (first_name last_name birth_date, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s);" \
-	            "$TABLE_NAME" "$first_name" "$last_name" "$birth_date" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
+	    sql+=$(printf "INSERT INTO %s (first_name, last_name, birth_date, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, notes, source) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
+	            "$TABLE_NAME" "$first_name" "$last_name" "$birth_date" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$notes" "$source")
 	    sql+=$'\n'
 	done
 	
