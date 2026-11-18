@@ -42,7 +42,7 @@ CREATE TABLE public.patients (
     blood_type varchar(3),
     sex text CHECK (sex IN ('Female', 'Male')),
     follow_up date NOT NULL,
-    cpr_number varchar(10),
+    cpr_number varchar(11),
     notes text,
     source text NOT NULL DEFAULT 'Manuel'
         CHECK (source IN ('Manuel', 'Script'))
@@ -125,3 +125,4 @@ FROM public.scans AS s
 JOIN public.visits AS v ON v.id = s.visit_id
 JOIN public.patients AS p ON p.id = v.patient_id
 JOIN public.devices AS d ON d.device_id = s.device_id;
+COMMIT;
