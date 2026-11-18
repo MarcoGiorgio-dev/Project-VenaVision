@@ -7,7 +7,7 @@ set -euo pipefail
 DB_HOST="localhost"
 DB_PORT="5432"
 DB_NAME="venavision"
-DB_USER="postgres"
+DB_USER="venavision_user"
 TABLE_NAME="patients"
 COUNT=100
 
@@ -61,9 +61,9 @@ DIAGNOSES=(
 
 BLOODTYPES=("A+" "A-" "B+" "B-" "AB+" "AB-" "O+" "O-")
 
-GENDER=("Male" "Female")
+SEX=("Male" "Female")
 
-NOTES=(
+COMMENT=(
 	"No comments"
 	"Afraid of needles"
 	"High blood pressure"
@@ -127,12 +127,12 @@ add_days() {
 # FUNCTION FOR RANDOMLY GENERATING CPR NUMBERS
 make_cpr() {
 	local birth_date=$1
-	local gender=$2
+	local sex=$2
 	local ddmmyy
 	ddmmyy=$(date -d "$birth_date" +%d%m%y)
 	local mid=$(( RANDOM % 1000 ))
 	local last
-	if [[ "$gender" == "Male" ]]; then
+	if [[ "$sex" == "Male" ]]; then
 		last=$(( 1 + 2 * (RANDOM % 5) ))
 	else
 		last=$(( 2 * (RANDOM % 5) ))
@@ -149,8 +149,8 @@ run_query() {
 patient_generator() {
 	local sql=""
 	for i in $(seq 1 "$COUNT"); do
-		gender=$(random_from GENDER)
-		if [[ "$gender" == "Male" ]]; then
+		sex=$(random_from SEX)
+		if [[ "$sex" == "Male" ]]; then
 			first_name=$(random_from MALE_NAMES)
 		else
 			first_name=$(random_from FEMALE_NAMES)
@@ -159,13 +159,13 @@ patient_generator() {
 		birth_date=$(random_birth_date 1930 2008)
 		diagnose=$(random_from DIAGNOSES)
 		bloodtype=$(random_from BLOODTYPES)
-		visits=$(random_last_prick 365)
-		follow_up=$(add_days "$visits" $(( 14 + RANDOM % 167 )))
-		cpr=$(make_cpr "$birth_date" "$gender")
-		notes=$(random_from NOTES)
+		last_prick=$(random_last_prick 365)
+		follow_up=$(add_days "$last_prick" $(( 14 + RANDOM % 167 )))
+		cpr=$(make_cpr "$birth_date" "$sex")
+		comment=$(random_from COMMENT)
 		
-	    sql+=$(printf "INSERT INTO %s (first_name last_name birth_date, diagnose, visits, bloodtype, gender, follow_up, cpr_number, notes) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s);" \
-	            "$TABLE_NAME" "$first_name" "$last_name" "$birth_date" "$diagnose" "$visits" "$bloodtype" "$gender" "$follow_up" "$cpr" "$notes")
+	    sql+=$(printf "INSERT INTO %s (birth_date, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, comment) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
+	            "$TABLE_NAME" "$name" "$birth_date" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$comment")
 	    sql+=$'\n'
 	done
 	
