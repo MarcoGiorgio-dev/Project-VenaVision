@@ -165,9 +165,8 @@ patient_generator() {
 		notes=$(random_from COMMENT)
 		source="Script"
 		
-	    sql+=$(printf "INSERT INTO %s (first_name, last_name, birth_date, diagnose, last_needle_prick, bloodtype, sex, follow_up, cpr_number, notes, source) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
-	            "$TABLE_NAME" "$first_name" "$last_name" "$birth_date" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$notes" "$source")
-	    sql+=$'\n'
+	   sql+=$(printf "INSERT INTO %s (first_name, last_name, birth_date, diagnose, last_prick, blood_type, sex, follow_up, cpr_number, notes, source) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" \
+    "$TABLE_NAME" "$first_name" "$last_name" "$birth_date" "$diagnose" "$last_prick" "$bloodtype" "$sex" "$follow_up" "$cpr" "$notes" "$source")
 	done
 	
 	printf '%s\n' "BEGIN;" "$sql" "COMMIT;" | run_query
