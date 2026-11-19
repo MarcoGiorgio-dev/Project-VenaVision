@@ -1,7 +1,5 @@
 from gpiozero import DistanceSensor
 
-#trigger_distance = 0.10 (Denne skal med i main.py, og står her så vi husker det.)
-
 class Distance:
     def __init__(self):
         self.sensor = DistanceSensor(
