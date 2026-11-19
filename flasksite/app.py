@@ -1,14 +1,10 @@
 import base64
-from io import BytesIO
-from flask import Flask, render_template 
-from matplotlib.figure import Figure
 import os
+from io import BytesIO
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, render_template
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-
-
 
 load_dotenv()
 app = Flask(__name__)
@@ -58,7 +54,6 @@ def patienter():
 def Malte_session(): 
     return render_template ("Malte_session.html")
 
-
 @app.route("/Celine_session")
 @login_required 
 def Celine_session(): 
@@ -74,8 +69,6 @@ def Jakob_session():
 def Marco_session(): 
     return render_template ("Marco_session.html")
 
-
-
 @app.route("/index")
 def index():
     return render_template("index.html")
@@ -83,9 +76,6 @@ def index():
 @app.route("/Patienter")
 def Patienter(): 
     return render_template ("Patienter.html")
-   
-      
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-
