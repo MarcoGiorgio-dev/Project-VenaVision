@@ -12,7 +12,7 @@ send = DataTransfer(
 nir = NIR_led()
 cam = Camera()
 dist = Distance()
-trigger_distance = 0.10
+TRIGGER_DISTANCE = 0.10     # 10 cm, men vi skal selv teste hvad der fungere bedst.
 
 def janitor():
     nir.stop()
@@ -20,14 +20,19 @@ def janitor():
     cam.stop()
 
 try:
-    # Rest of code when its done
-    gap = dist.get_distance()
-    if gap <= trigger_distance:
-        nir.on()
-        cam.start()
-        mr_vein = cam.get_frame()
+    while True:
+        # Resten af koden skal stå herinde.
+        gap = dist.get_distance()
 
-    pass
+        if gap <= TRIGGER_DISTANCE:
+            nir.on()
+            cam.start()
+            mr_vein = cam.get_frame()
+            send.send_pic(mr_vein)
+            cam.stop()
+        else:
+            nir.off()
+
 except KeyboardInterrupt:
     print("Stopping VenaVision...")
 finally:

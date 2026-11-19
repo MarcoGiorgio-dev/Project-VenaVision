@@ -10,17 +10,19 @@ class Camera:
                   "format": "RGB888"}
         )
         self.camera.configure(config)
-	self.camera.set_controls({"AfMode": controls.AfModeEnum.Continuous})
+        self.camera.set_controls({"AfMode": controls.AfModeEnum.Continuous})
 
     def start(self):
         self.camera.start()
+        print("Camera started.")
         sleep(2)
 
     def get_frame(self):
-        frame = self.camera.capture_array()
-        return frame
+        filename = "vein_capture.jpg"
+        self.camera.capture_file(filename)
+        return filename
 
     def stop(self):
         self.camera.stop()
         self.camera.close()
-        print("Kamera stoppet.")
+        print("Camera stopped.")

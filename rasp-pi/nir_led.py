@@ -16,10 +16,3 @@ class NIR_led:
     def stop(self):
         self.nir.close()
         self.led.close()
-
-
-""" if sensor.distance <= trigger_distance:
-    nIR_LED.on
-
-else:
-    nIR_LED.off """
