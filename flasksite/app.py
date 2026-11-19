@@ -1,10 +1,8 @@
 import base64
-from io import BytesIO
-from flask import Flask, render_template 
-from matplotlib.figure import Figure
 import os
+from io import BytesIO
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, render_template
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
