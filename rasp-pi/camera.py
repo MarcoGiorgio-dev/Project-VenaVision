@@ -24,5 +24,9 @@ class Camera:
 
     def stop(self):
         self.camera.stop()
-        self.camera.close()
         print("Camera stopped.")
+
+    def close(self):
+        self.camera.stop()
+        self.camera.close()
+        print("Camera closed.")
