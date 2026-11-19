@@ -13,6 +13,6 @@ class NIR_led:
         self.nir.value = 0
         self.led.off()
 
-    def stop(self):
+    def close(self):
         self.nir.close()
         self.led.close()
