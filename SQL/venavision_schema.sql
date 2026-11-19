@@ -44,8 +44,8 @@ CREATE TABLE public.patients (
     follow_up date NOT NULL,
     cpr_number varchar(11),
     notes text,
-    source text NOT NULL DEFAULT 'Manuel'
-        CHECK (source IN ('Manuel', 'Script'))
+    source text NOT NULL DEFAULT 'Manual'
+        CHECK (source IN ('Manual', 'Script'))
 );
 
 CREATE TABLE public.staff (
@@ -63,8 +63,8 @@ CREATE TABLE public.visits (
     staff_id integer REFERENCES public.staff(id),
     visit_time timestamp NOT NULL,
     notes text,
-    source text NOT NULL DEFAULT 'manuel'
-        CHECK (source IN ('manuel', 'generator'))
+    source text NOT NULL DEFAULT 'Manual'
+        CHECK (source IN ('Manual', 'Script'))
 );
 
 CREATE TABLE public.scans (
