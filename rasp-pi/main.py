@@ -26,10 +26,10 @@ try:
 
         if gap <= TRIGGER_DISTANCE:
             nir.on()
-            cam.on()
+            cam.start()
             mr_vein = cam.get_frame()
             send.send_pic(mr_vein)
-            cam.off()
+            cam.stop()
         else:
             nir.off()
 
