@@ -20,7 +20,8 @@ When an arm is positioned within the desired distance, an ultrasonic sensor trig
 - **NIR LED ring:** Illuminates the area being examined.
 - **Ultrasonic distance sensor:** Detects when an arm is positioned within the desired distance.
 - **Python:** Handles hardware control, image capture and system logic.
-- **SFTP:** Securely transfers captured images to the web server.
+- HTTPS: Secures communication between clients and the Flask web interface through encrypted HTTP connections.
+- SFTP: Securely transfers captured images from the Raspberry Pi to the Linux web server.
 - **Flask:** Provides the web interface for viewing captured images.
 
 ## Project objectives
