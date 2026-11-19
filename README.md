@@ -36,4 +36,4 @@ The project focuses on:
 
 ## Project status
 
-This project is being developed as part of an IT-Technologist semester project at Erhvervsakademi København (EK).
+This project is being developed as part of the 3rd semester IT-Technologist programme at Erhvervsakademi København (EK).
