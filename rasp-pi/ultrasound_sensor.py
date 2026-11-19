@@ -11,5 +11,5 @@ class Distance:
     def get_distance(self):
         return self.sensor.distance
 
-    def stop(self):
+    def close(self):
         self.sensor.close()
