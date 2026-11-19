@@ -15,9 +15,9 @@ dist = Distance()           # VIGTIGT: Tjek ultrasound_sensor.py før brug!
 TRIGGER_DISTANCE = 0.10     # 10 cm, men vi skal selv teste hvad der fungere bedst.
 
 def janitor():
-    nir.close()
-    dist.close()
-    cam.close()
+    nir.stop()
+    dist.stop()
+    cam.stop()
 
 try:
     while True:
