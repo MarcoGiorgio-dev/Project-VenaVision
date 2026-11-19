@@ -15,9 +15,9 @@ dist = Distance()           # VIGTIGT: Tjek ultrasound_sensor.py før brug!
 TRIGGER_DISTANCE = 0.10     # 10 cm, men vi skal selv teste hvad der fungere bedst.
 
 def janitor():
-    nir.stop()
-    dist.stop()
-    cam.stop()
+    nir.close()
+    dist.close()
+    cam.close()
 
 try:
     while True:
@@ -26,10 +26,10 @@ try:
 
         if gap <= TRIGGER_DISTANCE:
             nir.on()
-            cam.start()
+            cam.on()
             mr_vein = cam.get_frame()
             send.send_pic(mr_vein)
-            cam.stop()
+            cam.off()
         else:
             nir.off()
 
