@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ patient[1] }} {{ patient[2] }}{% endblock %}
+
+{% block content %}
+
+<h1 class="mt-4">{{ patient[1] }} {{ patient[2] }}</h1>
+
+<!-- Patientoplysninger -->
+<div class="card mb-4" style="max-width: 600px;">
+    <div class="card-header">
+        Patientoplysninger
+    </div>
+
+    <div class="card-body">
+        <p><strong>Birth date:</strong> {{ patient[3] }}</p>
+        <p><strong>Gender:</strong> {{ patient[4] }}</p>
+        <p><strong>CPR:</strong> {{ patient[5] }}</p>
+        <p><strong>Blood type:</strong> {{ patient[6] }}</p>
+    </div>
+</div>
+
+<!-- Ny undersøgelse -->
+<h2>Submit new examination</h2>
+
+<form method="post" class="mb-4" style="max-width: 500px;">
+
+    <label class="form-label" for="last_prick">Last prick</label>
+    <input
+        class="form-control mb-2"
+        type="date"
+        id="last_prick"
+        name="last_prick"
+        required>
+
+    <label class="form-label" for="notes">Notes</label>
+    <textarea
+        class="form-control mb-2"
+        id="notes"
+        name="notes"
+        rows="4"></textarea>
+
+    <button class="btn btn-primary" type="submit">
+        Submit
+    </button>
+
+</form>
+
+<!-- Tidligere undersøgelser -->
+<h2>Previous examinations</h2>
+
+{% for s in sessions %}
+
+    
+
+{% else %}
+
+    <p>No examinations yet.</p>
+
+{% endfor %}
+
+<a href="{{ url_for('patienter') }}"
+   class="btn btn-secondary mt-3">
+    Tilbage
+</a>
+
+{% endblock %}
