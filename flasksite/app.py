@@ -1,10 +1,16 @@
 import base64
-import os
 from io import BytesIO
+from flask import Flask, render_template 
+from matplotlib.figure import Figure
+import os
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, flash, render_template
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+import psycopg2
+
+
+
 
 load_dotenv()
 app = Flask(__name__)
@@ -39,43 +45,113 @@ def login():
         flash("Wrong username or password")
     return render_template("login.html")
 
+def get_db():
+    return psycopg2.connect(
+        host=os.getenv("DB_HOST", "localhost"),
+        database=os.getenv("venavision"),
+        user=os.getenv("venavision_user"),
+        password=os.getenv("gruppe4"),
+        port=os.getenv("DB_PORT", "5432"),
+    )
+
+
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for("login"))
 
-@app.route("/Patienter")
-@login_required          # only logged-in users can open this page
+@app.route("/Patienter", methods=["GET", "POST"])
+@login_required
 def patienter():
-    return render_template("Patienter.html")
+    conn = get_db()
+    cur = conn.cursor()
+    try:
+        if request.method == "POST":
+            # Ingen notes/visits her - de håndteres kun inde på patienten
+            cur.execute(
+                """
+                INSERT INTO patients
+                (first_name, last_name, birth_date, sex, cpr, blood_type, diagnose)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                """,
+                (
+                    request.form["first_name"].strip(),
+                    request.form["last_name"].strip(),
+                    request.form["birth_date"],
+                    request.form["sex"],
+                    request.form["cpr_number"],
+                    request.form["blood_type"],
+                    request.form.get("diagnose", ""),
+                    request.form["follow_up"],
+                ),
+            )
+            conn.commit()
+            return redirect(url_for("patienter"))
 
-@app.route("/Malte_session")
-@login_required 
-def Malte_session(): 
-    return render_template ("Malte_session.html")
+        cur.execute(
+            "SELECT id, first_name, last_name, birth_date, sex, cpr_number, blood_type, diagnose, follow_up"
+            "FROM patients ORDER BY last_name, first_name"
+        )
+        patients = cur.fetchall()
+        return render_template("patienter.html", patients=patients)
+    finally:
+        cur.close()
+        conn.close()
 
-@app.route("/Celine_session")
-@login_required 
-def Celine_session(): 
-    return render_template ("Celine_session.html")
 
-@app.route("/Jakob_session")
-@login_required 
-def Jakob_session(): 
-    return render_template ("Jakob_session.html")
+@app.route("/patient/<int:patient_id>", methods=["GET", "POST"])
+@login_required
+def patient(patient_id):
+    conn = get_db()
+    cur = conn.cursor()
+    try:
+        if request.method == "POST":
+            form_type = request.form.get("form_type")
 
-@app.route("/Marco_session")
-@login_required 
-def Marco_session(): 
-    return render_template ("Marco_session.html")
+            if form_type == "patient_info":
+                # Opdaterer notes og visits på selve patienten
+                visits = int(request.form.get("visits") or 0)
+                cur.execute(
+                    "UPDATE patients SET notes = %s, visits = %s WHERE id = %s",
+                    (request.form["notes"], visits, patient_id),
+                )
+            elif form_type == "session":
+                cur.execute(
+                    "INSERT INTO patient_sessions (patient_id, last_prick, notes) "
+                    "VALUES (%s, %s, %s)",
+                    (patient_id, request.form["last_prick"], request.form["notes"]),
+                )
+
+            conn.commit()
+            return redirect(url_for("patient", patient_id=patient_id))
+
+        cur.execute(
+            "SELECT id, first_name, last_name, birth_date, gender, cpr, blood_type, "
+            "diagnosis, notes, visits FROM patients WHERE id = %s",
+            (patient_id,),
+        )
+        p = cur.fetchone()
+        if p is None:
+            return "Patient not found", 404
+
+        cur.execute(
+            "SELECT id, age, notes, created_at FROM patient_sessions "
+            "WHERE patient_id = %s ORDER BY created_at DESC",
+            (patient_id,),
+        )
+        sessions = cur.fetchall()
+        return render_template("patient.html", patient=p, sessions=sessions)
+    finally:
+        cur.close()
+        conn.close()
+
+
 
 @app.route("/index")
 def index():
     return render_template("index.html")
 
-@app.route("/Patienter")
-def Patienter(): 
-    return render_template ("Patienter.html")
+         
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
