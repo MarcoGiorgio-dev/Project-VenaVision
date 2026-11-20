@@ -6,7 +6,7 @@ from data_transfer import DataTransfer
 send = DataTransfer(
     server_ip = "192.168.1.10",
     username = "gruppe4",
-    p_key = "path/til/privat_ssh/nøglen",
+    p_key = None,
     remote_dir = "/project_venavision/Project-VenaVision/flasksite"
 )
 nir = NIR_led()

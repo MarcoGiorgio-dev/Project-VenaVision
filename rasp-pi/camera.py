@@ -18,7 +18,7 @@ class Camera:
         sleep(2)
 
     def get_frame(self):
-        filename = "vein_capture.jpg"
+        filename = "mr_vein.jpg"
         self.camera.capture_file(filename)
         return filename
 
