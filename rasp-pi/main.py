@@ -4,10 +4,10 @@ from camera import Camera
 from data_transfer import DataTransfer
 
 send = DataTransfer(
-    server_ip = "192.168.20.x",
+    server_ip = "192.168.1.10",
     username = "gruppe4",
     p_key = "path/til/privat_ssh/nøglen",
-    remote_dir = "path/til/flask"
+    remote_dir = "/project_venavision/Project-VenaVision/flasksite"
 )
 nir = NIR_led()
 cam = Camera()

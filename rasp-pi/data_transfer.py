@@ -1,6 +1,5 @@
 import paramiko
 from pathlib import Path
-import uuid
 
 class DataTransfer:
     def __init__(self, server_ip, username, p_key, remote_dir):
@@ -23,14 +22,14 @@ class DataTransfer:
             sftp = client.open_sftp()
 
             try:
-                filename = Path(img_path).name
+                filename = Path("/home/pi/pictures/mr_vein.jpg").name
 
                 remote_path = (
                     f"{self.remote_dir}/{filename}"
                 )
 
                 # Temporary filename prevents displaying image while uploading.
-                temp_path = remote_path + f".{uuid.uuid4().hex}.tmp"
+                temp_path = remote_path + ".tmp"
 
                 sftp.put(img_path, temp_path)
                 sftp.rename(temp_path, remote_path)
