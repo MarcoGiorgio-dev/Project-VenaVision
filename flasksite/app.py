@@ -9,9 +9,6 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 
-
-
-
 load_dotenv()
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("JWT_SECRET_KEY") 
