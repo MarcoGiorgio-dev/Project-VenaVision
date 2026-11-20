@@ -41,7 +41,7 @@ def login():
         password = request.form["password"]
         if username in USERS and check_password_hash(USERS[username], password):
             login_user(User(username))
-            return redirect(url_for("patienter"))
+            return redirect(url_for("session"))
         flash("Wrong username or password")
     return render_template("login.html")
 
@@ -60,9 +60,9 @@ def logout():
     logout_user()
     return redirect(url_for("login"))
 
-@app.route("/Patienter", methods=["GET", "POST"])
+@app.route("/session", methods=["GET", "POST"])
 @login_required
-def patienter():
+def session():
     conn = get_db()
     cur = conn.cursor()
     try:
@@ -86,14 +86,14 @@ def patienter():
                 ),
             )
             conn.commit()
-            return redirect(url_for("patienter"))
+            return redirect(url_for("session"))
 
         cur.execute(
             "SELECT id, first_name, last_name, birth_date, sex, cpr_number, blood_type, diagnose, follow_up"
             "FROM patients ORDER BY last_name, first_name"
         )
         patients = cur.fetchall()
-        return render_template("patienter.html", patients=patients)
+        return render_template("session.html", patients=patients)
     finally:
         cur.close()
         conn.close()
