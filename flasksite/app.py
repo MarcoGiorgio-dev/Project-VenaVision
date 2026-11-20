@@ -14,7 +14,7 @@ import psycopg2
 
 load_dotenv()
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")  # Use the secret key from the .env file
+app.config["SECRET_KEY"] = os.getenv("JWT_SECRET_KEY") 
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"   # where to send people who aren't logged in
