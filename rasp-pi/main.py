@@ -33,7 +33,6 @@ def janitor():
 
 try:
     while True:
-        # Resten af koden skal stå herinde.
         GAP = dist.get_distance()
 
         if GAP <= TRIGGER_DISTANCE:
