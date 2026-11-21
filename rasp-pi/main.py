@@ -36,15 +36,16 @@ try:
         # Resten af koden skal stå herinde.
         GAP = dist.get_distance()
 
-        if GAP <= TRIGGER_DISTANCE & pic == False:
-            nir.on()
-            cam.start()
-            mr_vein = cam.get_frame()
-            send.send_pic(mr_vein)
-            cam.stop()
-            pic = True
-            vib.double_vib()
-            vib.stop()
+        if GAP <= TRIGGER_DISTANCE:
+            if pic == False:
+                nir.on()
+                cam.start()
+                mr_vein = cam.get_frame()
+                send.send_pic(mr_vein)
+                cam.stop()
+                pic = True
+                vib.double_vib()
+                vib.stop()
             if mark is False:
                 step.mark(10)
                 MARK_SET = True
