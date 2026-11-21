@@ -43,7 +43,7 @@ try:
                 send.send_pic(mr_vein)
                 cam.stop()
                 pic = True
-                vib.double_vib()
+                vib.vib()
             if mark is False:
                 step.mark(10)
                 mark = True
