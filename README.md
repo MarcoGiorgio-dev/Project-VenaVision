@@ -27,7 +27,7 @@ When an arm is positioned within the desired distance, an ultrasonic sensor trig
 
 ## Project objectives
 
-The goal is to develop a working prototype that combines embedded systems, networking and software development into a single solution. The mission is to provide a prototype, that improves the efficiency of needle injections in patients with low-visibility veins.
+The goal is to develop a working prototype that combines embedded systems, networking and software development into a single solution. The mission is to create a prototype, that improves the efficiency of needle injections in patients with low-visibility veins.
 
 The project focuses on:
 - Integrating and controlling hardware components through the Raspberry Pi.
