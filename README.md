@@ -19,7 +19,7 @@ When an arm is positioned within the desired distance, an ultrasonic sensor trig
 - **Pi Camera NoIR:** Captures images under near-infrared illumination.
 - **NIR LED ring:** Illuminates the area being examined.
 - **Ultrasonic distance sensor:** Detects when an arm is positioned within the desired distance.
-- ** Vibration motor: Gives haptic feedback with two short pulses once the image has been captured and sent.
+- **Vibration motor:** Gives haptic feedback with two short pulses once the image has been captured and sent.
 - **Python:** Handles hardware control, image capture and system logic.
 - HTTPS: Secures communication between clients and the Flask web interface through encrypted HTTP connections.
 - SFTP: Securely transfers captured images from the Raspberry Pi to the Linux web server.
