@@ -44,13 +44,12 @@ try:
                 cam.stop()
                 pic = True
                 vib.double_vib()
-                vib.stop()
             if mark is False:
                 step.mark(10)
-                MARK_SET = True
+                mark = True
                 mark_time = time.monotonic()
             elif time.monotonic() - mark_time >= MARK_INTERVAL:
-                MARK_SET = False
+                mark = False
         else:
             nir.off()
             mark = False
@@ -58,5 +57,7 @@ try:
 
 except KeyboardInterrupt:
     print("Stopping VenaVision...")
+except Exception as e:
+    print(f"Stopping VenaVision with error: {type(e).__name__}: {e}")
 finally:
     janitor()
