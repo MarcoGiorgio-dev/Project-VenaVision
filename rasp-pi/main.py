@@ -37,7 +37,7 @@ try:
         GAP = dist.get_distance()
 
         if GAP <= TRIGGER_DISTANCE:
-            if pic == False:
+            if pic is False:
                 nir.on()
                 cam.start()
                 mr_vein = cam.get_frame()
