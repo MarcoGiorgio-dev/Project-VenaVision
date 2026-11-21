@@ -11,7 +11,7 @@ Inspired by the song *[Mr. Vain](https://en.wikipedia.org/wiki/Mr._Vain)* by Cul
 
 VenaVision is an embedded systems project built around a Raspberry Pi 4 Model B. The system uses near-infrared illumination and a NoIR camera to capture images of veins beneath the skin.
 
-When an arm is positioned within the desired distance, an ultrasonic sensor triggers the image capture process. The captured image is then transferred over a private network to a Linux-based web server, where it can be accessed through a Flask web interface.
+When an arm is positioned within the desired distance, an ultrasonic sensor triggers the image capture process. The captured image is then transferred over a private network to a Linux-based web server, where it can be accessed through a Flask web interface. A vibration motor signals the user with two short pulses when the capture is done. If an error occurs, it is printed to the terminal and the hardware is released safely before the program stops.
 
 ## Main components
 
@@ -19,6 +19,7 @@ When an arm is positioned within the desired distance, an ultrasonic sensor trig
 - **Pi Camera NoIR:** Captures images under near-infrared illumination.
 - **NIR LED ring:** Illuminates the area being examined.
 - **Ultrasonic distance sensor:** Detects when an arm is positioned within the desired distance.
+- ** Vibration motor: Gives haptic feedback with two short pulses once the image has been captured and sent.
 - **Python:** Handles hardware control, image capture and system logic.
 - HTTPS: Secures communication between clients and the Flask web interface through encrypted HTTP connections.
 - SFTP: Securely transfers captured images from the Raspberry Pi to the Linux web server.
