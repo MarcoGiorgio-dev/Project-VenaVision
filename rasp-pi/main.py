@@ -18,37 +18,43 @@ cam = Camera()
 dist = Distance()           # VIGTIGT: Tjek ultrasound_sensor.py før brug!
 step = Stepper()
 vib = VibrationMotor()
+mark = False
+pic = False
+mark_time = time.monotonic()
+MARK_INTERVAL = 30
 TRIGGER_DISTANCE = 0.10     # 10 cm, men vi skal selv teste hvad der fungere bedst.
-NOW = time.monotonic()
-INTERVAL = 30
-MARK_SET = False
 
 def janitor():
     nir.close()
     dist.close()
     cam.close()
     step.close()
+    vib.close()
 
 try:
     while True:
         # Resten af koden skal stå herinde.
         GAP = dist.get_distance()
 
-        if GAP <= TRIGGER_DISTANCE:
+        if GAP <= TRIGGER_DISTANCE & pic == False:
             nir.on()
             cam.start()
             mr_vein = cam.get_frame()
             send.send_pic(mr_vein)
             cam.stop()
-            if MARK_SET is False:
+            pic = True
+            vib.double_vib()
+            vib.stop()
+            if mark is False:
                 step.mark(10)
                 MARK_SET = True
-                NOW = time.monotonic()
-            elif time.monotonic() - NOW >= INTERVAL:
+                mark_time = time.monotonic()
+            elif time.monotonic() - mark_time >= MARK_INTERVAL:
                 MARK_SET = False
         else:
             nir.off()
-            MARK_SET = False
+            mark = False
+            pic = False
 
 except KeyboardInterrupt:
     print("Stopping VenaVision...")
