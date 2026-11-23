@@ -50,7 +50,7 @@ def get_db():
         password=os.getenv("DB_PASSWORD"),
         port=os.getenv("DB_PORT", "5432"),
     )
-    )
+    
 
 
 @app.route("/logout")
