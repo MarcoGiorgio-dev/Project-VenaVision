@@ -52,9 +52,9 @@ def get_db():
     print("DB_PASSWORD present:", bool(os.getenv("DB_PASSWORD")), flush=True)
     return psycopg2.connect(
         host=os.getenv("DB_HOST", "localhost"),
-        database=os.getenv("venavision"),
-        user=os.getenv("venavision_user"),
-        password=os.getenv("gruppe4"),
+        database=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
         port=os.getenv("DB_PORT", "5432"),
     )
     
