@@ -17,7 +17,6 @@ mountpoint -q $BASE || fail 'internal backup disk not mounted'
 AGE=$(( ( $(date +%s) - $(stat -L -c %Y $LATEST) ) / 60 ))
 [ $AGE -le $MAX_AGE_MIN ] || fail "latest snapshot is $AGE minutes old"
 
-# The newest snapshot must contain a database dump
 ls $LATEST/app/venavision_*.dump > /dev/null 2>&1 || fail 'newest snapshot has no database dump'
 
 USED=$(df --output=pcent $BASE | tail -n 1 | tr -dc '0-9')
