@@ -31,3 +31,15 @@ class Stepper:
     def close(self):
         for pin in self.pins:
             pin.off()
+
+# TIL TEST
+if __name__ == "__main__":
+    motor = Stepper()
+
+    try:
+        motor.move(5)          # Move 5 steps forward
+        time.sleep(1)
+        motor.move(5, -1)      # Move 5 steps backward
+
+    finally:
+        motor.close()          # Turn off all GPIO pins
