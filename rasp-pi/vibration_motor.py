@@ -12,3 +12,7 @@ class VibrationMotor:
     def close(self):
         self.motor.off()
         self.motor.close()
+
+# TIL TEST
+vib = VibrationMotor()
+vib.vib()
