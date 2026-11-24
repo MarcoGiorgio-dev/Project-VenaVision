@@ -10,7 +10,7 @@ send = DataTransfer(
     server_ip = "192.168.1.10",
     username = "gruppe4",
     p_key = None,
-    remote_dir = "/project_venavision/Project-VenaVision/flasksite"
+    remote_dir = "/project_venavision/Project-VenaVision/flasksite/static"
 )
 
 nir = NIR_led()
