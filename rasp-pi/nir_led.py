@@ -7,7 +7,7 @@ class NIR_led:
         self.led = LED(17)
 
     def on(self):
-        self.nir.value = 0.75
+        self.nir.value = 1
         self.led.on()
 
     def off(self):
@@ -23,4 +23,3 @@ nir_led = NIR_led()
 nir_led.on()
 sleep(2)
 nir_led.off
-sleep(2)
