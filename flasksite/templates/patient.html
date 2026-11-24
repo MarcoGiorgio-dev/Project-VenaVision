@@ -2,6 +2,10 @@
 {% block title %}{{ patient[1] }} {{ patient[2] }}{% endblock %}
 
 {% block content %}
+<img src="{{ url_for('static', filename='mrvein.jpg') }}"
+     alt="Mrvein"
+     class="img-fluid mb-4"
+     style="max-width: 300px; margin-left: 20px; float: right;">
 
 <h1 class="mt-4">{{ patient[1] }} {{ patient[2] }}</h1>
 
@@ -49,7 +53,15 @@
 <h2>Previous examinations</h2>
 
 {% for s in sessions %}
-
+ <div class="card mb-4">
+        <div class="card-header">
+            {{ s[3].strftime('%d-%m-%Y %H:%M') }}
+        </div>
+        <div class="card-body">
+            <p><strong>Last prick:</strong> {{ s[1] }}</p>
+            <p><strong>Notes:</strong> {{ s[2] }}</p>
+        </div>
+    </div>
     
 
 {% else %}
