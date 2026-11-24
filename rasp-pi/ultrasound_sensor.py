@@ -17,10 +17,10 @@ class Distance:
 
 
 # TIL TEST
-dist = Distance()
-try:
-    while True:
-        print(dist.get_distance())
-        sleep(1)
-except KeyboardInterrupt:
-	print("Stopping...")
+#dist = Distance()
+#try:
+#    while True:
+#        print(dist.get_distance())
+#        sleep(1)
+#except KeyboardInterrupt:
+#	print("Stopping...")
