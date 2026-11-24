@@ -20,3 +20,4 @@ dist = Distance()
 if "__main__" is True:
     while True:
         print(dist.get_distance())
+        sleep(1)
