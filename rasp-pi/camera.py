@@ -38,7 +38,7 @@ class Camera:
         print("Camera closed.")
 
 
-# TIL TEST: only runs with "python3 camera.py", not when another file imports Camera
+# TIL TEST
 #if __name__ == "__main__":
  #   cam = Camera()
   #  try:
