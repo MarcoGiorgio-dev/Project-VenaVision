@@ -1,4 +1,5 @@
 from gpiozero import DistanceSensor
+from time import sleep
 
 class Distance:
     def __init__(self):
@@ -17,7 +18,9 @@ class Distance:
 
 # TIL TEST
 dist = Distance()
-if "__main__" is True:
+try:
     while True:
         print(dist.get_distance())
         sleep(1)
+except KeyboardInterrupt:
+	print("Stopping...")
