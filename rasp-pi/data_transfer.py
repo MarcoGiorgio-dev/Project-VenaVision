@@ -44,3 +44,7 @@ class DataTransfer:
 
         finally:
             client.close()
+
+# TIL TEST
+data = DataTransfer()
+data.send_pic()
