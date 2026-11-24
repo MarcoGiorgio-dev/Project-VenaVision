@@ -39,10 +39,10 @@ class Camera:
 
 
 # TIL TEST: only runs with "python3 camera.py", not when another file imports Camera
-if __name__ == "__main__":
-    cam = Camera()
-    try:
-        cam.start()
-        print(cam.get_frame())
-    finally:
-        cam.close()
+#if __name__ == "__main__":
+ #   cam = Camera()
+  #  try:
+   #     cam.start()
+    #    print(cam.get_frame())
+    #finally:
+     #   cam.close()
