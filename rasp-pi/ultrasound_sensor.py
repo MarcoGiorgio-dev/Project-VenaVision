@@ -13,3 +13,9 @@ class Distance:
 
     def close(self):
         self.sensor.close()
+
+
+# TIL TEST
+dist = Distance()
+while True:
+    print(dist.get_distance())
