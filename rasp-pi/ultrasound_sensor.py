@@ -17,5 +17,6 @@ class Distance:
 
 # TIL TEST
 dist = Distance()
-while True:
-    print(dist.get_distance())
+if "__main__" is True:
+    while True:
+        print(dist.get_distance())
