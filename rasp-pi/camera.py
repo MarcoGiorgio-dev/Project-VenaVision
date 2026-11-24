@@ -1,6 +1,11 @@
-from picamera2 import Picamera2
+from pathlib import Path
 from time import sleep
+
+from picamera2 import Picamera2
 from libcamera import controls
+
+PICTURE_DIR = Path.home() / "pictures"
+
 
 class Camera:
     def __init__(self):
@@ -18,7 +23,8 @@ class Camera:
         sleep(2)
 
     def get_frame(self):
-        filename = "mr_vein.jpg"
+        PICTURE_DIR.mkdir(exist_ok=True)
+        filename = str(PICTURE_DIR / "mr_vein.jpg")
         self.camera.capture_file(filename)
         return filename
 
@@ -31,6 +37,12 @@ class Camera:
         self.camera.close()
         print("Camera closed.")
 
-# TIL TEST
-cam = Camera()
-cam.get_frame()
+
+# TIL TEST: only runs with "python3 camera.py", not when another file imports Camera
+if __name__ == "__main__":
+    cam = Camera()
+    try:
+        cam.start()
+        print(cam.get_frame())
+    finally:
+        cam.close()
