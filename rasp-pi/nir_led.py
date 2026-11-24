@@ -1,4 +1,5 @@
 from gpiozero import LED, PWMLED
+from time import sleep
 
 class NIR_led:
     def __init__(self):
@@ -20,3 +21,6 @@ class NIR_led:
 # TIL TEST
 nir_led = NIR_led()
 nir_led.on()
+sleep(2)
+nir_led.off
+sleep(2)
