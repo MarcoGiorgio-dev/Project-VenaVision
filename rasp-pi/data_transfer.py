@@ -44,12 +44,12 @@ class DataTransfer:
             client.close()
 
 
-# TIL TEST: only runs with "python3 data_transfer.py"
-if __name__ == "__main__":
-    data = DataTransfer(
-        server_ip="192.168.1.10",
-        username="gruppe4",
-        p_key=str(Path.home() / ".ssh" / "id_ed25519"),
-        remote_dir="/project_venavision/Project-VenaVision/flasksite/static",
-    )
-    data.send_pic(str(Path.home() / "pictures" / "mr_vein.jpg"))
+# TIL TEST
+#if __name__ == "__main__":
+#    data = DataTransfer(
+#        server_ip="192.168.1.10",
+#        username="gruppe4",
+#        p_key=str(Path.home() / ".ssh" / "id_ed25519"),
+#        remote_dir="/project_venavision/Project-VenaVision/flasksite/static",
+#    )
+#    data.send_pic(str(Path.home() / "pictures" / "mr_vein.jpg"))
