@@ -30,3 +30,7 @@ class Camera:
         self.camera.stop()
         self.camera.close()
         print("Camera closed.")
+
+# TIL TEST
+cam = Camera()
+cam.get_frame()
