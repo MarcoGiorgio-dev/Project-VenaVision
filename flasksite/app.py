@@ -104,11 +104,7 @@ def session():
             FROM patients
             ORDER BY last_name, first_name
             """
-       (
-           request.form["last_prick"],
-           request.form["notes"],
-       )
-        )
+       
         
         patients = cur.fetchall()
         return render_template("session.html", patients=patients)
@@ -134,7 +130,11 @@ def patient(patient_id):
                 """,
                 (request.form["notes"], patient_id),
             )
-
+        (
+           request.form["last_prick"],
+           request.form["notes"],
+        )
+        
             conn.commit()
             return redirect(url_for("patient", patient_id=patient_id))
 
