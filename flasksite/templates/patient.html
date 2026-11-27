@@ -5,73 +5,38 @@
 <img src="{{ url_for('static', filename='mr_vein.jpg') }}"
      alt="Mrvein"
      class="img-fluid mb-4 float-end ms-3"
-     style="max-width: 300px;" margin-left: 20px; float: right;">
+     style="max-width: 300px;">
 
 <h1 class="mt-4">{{ patient[1] }} {{ patient[2] }}</h1>
 
 <!-- Patientoplysninger -->
 <div class="card mb-4" style="max-width: 600px;">
-    <div class="card-header">
-        Patientoplysninger
-    </div>
-
+    <div class="card-header">Patientoplysninger</div>
     <div class="card-body">
         <p><strong>Birth date:</strong> {{ patient[3] }}</p>
-        <p><strong>Gender:</strong> {{ patient[4] }}</p>
+        <p><strong>Sex:</strong> {{ patient[4] }}</p>
         <p><strong>CPR:</strong> {{ patient[5] }}</p>
         <p><strong>Blood type:</strong> {{ patient[6] }}</p>
+        <p><strong>Diagnose:</strong> {{ patient[7] or '-' }}</p>
+        <p><strong>Last prick:</strong> {{ patient[8] or '-' }}</p>
+        <p><strong>Follow up:</strong> {{ patient[9] or '-' }}</p>
     </div>
 </div>
 
-<!-- Ny undersøgelse -->
-<h2>Submit new examination</h2>
+<!-- Opdater -->
+<h2>Update examination</h2>
 
 <form method="post" class="mb-4" style="max-width: 500px;">
-
     <label class="form-label" for="last_prick">Last prick</label>
-    <input
-        class="form-control mb-2"
-        type="date"
-        id="last_prick"
-        name="last_prick">
+    <input class="form-control mb-2" type="date" id="last_prick"
+           name="last_prick" value="{{ patient[8] or '' }}">
 
     <label class="form-label" for="notes">Notes</label>
-    <textarea
-        class="form-control mb-2"
-        id="notes"
-        name="notes"
-        rows="4"></textarea>
+    <textarea class="form-control mb-2" id="notes" name="notes"
+              rows="4">{{ patient[10] or '' }}</textarea>
 
-    <button class="btn btn-primary" type="submit">
-        Submit
-    </button>
-
+    <button class="btn btn-primary" type="submit">Save</button>
 </form>
 
-<!-- Tidligere undersøgelser -->
-<h2>Previous examinations</h2>
-
-{% for s in sessions %}
- <div class="card mb-4">
-        <div class="card-header">
-            {{ s[3].strftime('%d-%m-%Y %H:%M') }}
-        </div>
-        <div class="card-body">
-            <p><strong>Last prick:</strong> {{ s[1] }}</p>
-            <p><strong>Notes:</strong> {{ s[2] }}</p>
-        </div>
-    </div>
-    
-
-{% else %}
-
-    <p>No examinations yet.</p>
-
-{% endfor %}
-
-<a href="{{ url_for('session') }}"
-   class="btn btn-secondary mt-3">
-    Tilbage
-</a>
-
+<a href="{{ url_for('session') }}" class="btn btn-secondary mt-3">Tilbage</a>
 {% endblock %}
