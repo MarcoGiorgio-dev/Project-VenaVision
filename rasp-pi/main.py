@@ -23,8 +23,6 @@ pic = False
 mark_time = time.monotonic()
 MARK_INTERVAL = 30
 TRIGGER_DISTANCE = 0.10     # 10 cm, men vi skal selv teste hvad der fungere bedst.
-test_time = time.monotonic()
-test_interval = 2
 
 def janitor():
     nir.close()
