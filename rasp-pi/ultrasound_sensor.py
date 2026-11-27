@@ -16,6 +16,7 @@ class Distance:
 
     def close(self):
         self.sensor.close()
+        print("Ultrasound sensor clsoed.")
 
 
 # TIL TEST
