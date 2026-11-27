@@ -139,8 +139,7 @@ def patient(patient_id):
             conn.commit()
             return redirect(url_for("patient", patient_id=patient_id))
         
-            conn.commit()
-            return redirect(url_for("patient", patient_id=patient_id))
+         
 
         cur.execute(
             """
