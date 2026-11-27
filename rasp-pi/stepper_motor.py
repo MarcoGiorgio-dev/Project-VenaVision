@@ -31,7 +31,7 @@ class Stepper:
     def close(self):
         for pin in self.pins:
             pin.off()
-            print("Stepper motor closed.")
+        print("Stepper motor closed.")
 
 # TIL TEST
 #if __name__ == "__main__":
