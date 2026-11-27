@@ -34,6 +34,7 @@ def janitor():
 try:
     while True:
         GAP = dist.get_distance()
+        print(f"Distance: {GAP}")
 
         if GAP <= TRIGGER_DISTANCE:
             if pic is False:
