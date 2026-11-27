@@ -12,8 +12,6 @@ class Distance:
         )
 
     def get_distance(self):
-        if time.monotonic() - test_time >= test_interval:
-            print(f"Distance: {DistanceSensor(self)}")
         return self.sensor.distance
 
     def close(self):
