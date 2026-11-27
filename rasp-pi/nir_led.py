@@ -17,6 +17,7 @@ class NIR_led:
     def close(self):
         self.nir.close()
         self.led.close()
+        print("All LEDs closed.")
 
 # TIL TEST
 #nir_led = NIR_led()
