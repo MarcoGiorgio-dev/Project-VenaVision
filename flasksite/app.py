@@ -104,7 +104,7 @@ def session():
             FROM patients
             ORDER BY last_name, first_name
             """
-       
+        )
         
         patients = cur.fetchall()
         return render_template("session.html", patients=patients)
