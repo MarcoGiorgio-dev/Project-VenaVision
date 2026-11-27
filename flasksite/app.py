@@ -130,12 +130,11 @@ def patient(patient_id):
                 WHERE id = %s
                 """,
                 (
-                    request.form["last_prick"],
-                    request.form["notes"],
+                    request.form.get("last_prick") or None,
+                    request.form.get("notes", ""),
                     patient_id,
                 ),
             )
-
             conn.commit()
             return redirect(url_for("patient", patient_id=patient_id))
         
