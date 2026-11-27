@@ -45,7 +45,7 @@ try:
                 pic = True
                 vib.vib()
             if mark is False:
-                step.mark(10)
+                step.mark(500)
                 mark = True
                 mark_time = time.monotonic()
             elif time.monotonic() - mark_time >= MARK_INTERVAL:
