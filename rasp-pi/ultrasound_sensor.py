@@ -1,15 +1,19 @@
 from gpiozero import DistanceSensor
-from time import sleep
+import time
+test_time = time.monotonic()
+test_interval = 2
 
 class Distance:
     def __init__(self):
         self.sensor = DistanceSensor(
-            echo=24,        # Der skal en spændingsdeler på mellem Echo og GPIO 24.
+            echo=24,
             trigger=23,
             max_distance=1
         )
 
     def get_distance(self):
+        if time.monotonic() - test_time >= test_interval:
+            print(f"Distance: {GAP}")
         return self.sensor.distance
 
     def close(self):
