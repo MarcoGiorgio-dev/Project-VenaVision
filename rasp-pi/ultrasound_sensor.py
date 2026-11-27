@@ -13,7 +13,7 @@ class Distance:
 
     def get_distance(self):
         if time.monotonic() - test_time >= test_interval:
-            print(f"Distance: {GAP}")
+            print(f"Distance: {self.sensor.distance()}")
         return self.sensor.distance
 
     def close(self):
