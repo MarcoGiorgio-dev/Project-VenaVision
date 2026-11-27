@@ -125,15 +125,19 @@ def patient(patient_id):
             cur.execute(
                 """
                 UPDATE patients
-                SET notes = %s
+                SET last_prick = %s,
+                    notes = %s
                 WHERE id = %s
                 """,
-                (request.form["notes"], patient_id),
+                (
+                    request.form["last_prick"],
+                    request.form["notes"],
+                    patient_id,
+                ),
             )
-        (
-           request.form["last_prick"],
-           request.form["notes"],
-        )
+
+            conn.commit()
+            return redirect(url_for("patient", patient_id=patient_id))
         
             conn.commit()
             return redirect(url_for("patient", patient_id=patient_id))
